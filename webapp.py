@@ -4,6 +4,7 @@ import pandas as pd
 
 from utils import *
 from inference import *
+st.set_page_config(layout="wide")
 
 def load_homepage():
     info_homepage = st.beta_container()
@@ -26,7 +27,7 @@ def load_homepage():
             labels = get_labels()
 
             #Calculate and display the top 3 predictions along with the species info
-            display_inference(model_output, labels, image)
+            display_inference(labels, model_output)
 
     else:
         with info_homepage:
@@ -36,11 +37,13 @@ def load_homepage():
             st.write("Le's get started by uploading an image: ")
 
 def display_sidebar(options):
+    st.sidebar.warning('Please upload the image in a standard format (jpg, jpeg, png)')
     option = st.sidebar.selectbox('Explore the following:', options)
     return option
 
 def load_catalog():
-    pass
+    labels = get_labels()
+    display_inference(labels, for_catalog=True, num_predictions=104)
 
 def main():
     options = ['Homepage', 'Flower Catalog']

@@ -52,29 +52,38 @@ def run_inference(model, image, input_details, output_details):
     species = model.get_tensor(output_details[0]['index'])
     return species
 
-def display_inference(model_output, labels, image):
-    model_output = model_output.flatten()
-    # Calculate the top 3 indices with the highest probabilities
-    top_indices = model_output.argsort()[-3:][::-1]
-    top_scores = [round(model_output[index]*100, 2) for index in top_indices]
-    # Retrieve name of the species from the labels using indices
-    top_preds = [labels[index] for index in top_indices]
-    catalog_image_path = 'catalog/'
+def display_inference(labels, model_output=None, for_catalog=False, num_predictions=3):
+    if not for_catalog:
+        model_output = model_output.flatten()
+        # Calculate the top 3 indices with the highest probabilities
+        top_indices = model_output.argsort()[-3:][::-1]
+        top_scores = [round(model_output[index]*100, 2) for index in top_indices]
+        # Retrieve name of the species from the labels using indices
+        top_preds = [labels[index] for index in top_indices]
 
+    catalog_image_path = 'catalog/'
     st.write(" ----- ")
     #DIsplay catalog image with the basic and detailed info from database
 
-    for num_prediction in range(3):
+    for num_prediction in range(num_predictions):
         #Divide into sub-parts for catalog image and info
         pred_image, pred_info = st.beta_columns([1,2])
-        info_dict = get_image_info(top_preds[num_prediction])
-        info_dict['score'] = top_scores[num_prediction]
+        if not for_catalog:
+            name = top_preds[num_prediction]
+            index = top_indices[num_prediction]
+        else:
+            name = labels[num_prediction]
+            index = num_prediction
+
+        info_dict = get_image_info(name)
+        if not for_catalog:
+            info_dict['score'] = top_scores[num_prediction]
 
         #Populate the image and info parts with the data retrieved from database
         with pred_image:
-            st.image(catalog_image_path + str(top_indices[num_prediction]) + '.jpeg')
+            st.image(catalog_image_path + str(index) + '.jpeg')
         with pred_info:
-            display_image_info(info_dict)
+            display_image_info(info_dict, for_catalog)
         #Add additional description in ReadMore
         with st.beta_expander('Read more...'):
             st.write('\n'.join(info_dict['description'].split('.')))

@@ -47,9 +47,12 @@ def get_image_info(flower_name):
     }
     return info_dict
 
-def display_image_info(info_dict):
+def display_image_info(info_dict, for_catalog=False):
     st.write('**Name:**', info_dict['name'])
-    st.write('**Probability:**', str(info_dict['score']), '%')
+
+    if not for_catalog:
+        st.write('**Probability:**', str(info_dict['score']), '%')
     st.write('**Type:**', info_dict['tag'])
+
     if info_dict['taxon'] is not None:
         st.write('**Taxon:**', info_dict['taxon'])
