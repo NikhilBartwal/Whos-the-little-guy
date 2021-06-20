@@ -42,6 +42,7 @@ def display_sidebar(options):
     return option
 
 def load_catalog():
+    st.title('Flowers Encyclopedia')
     labels = get_labels()
     display_inference(labels, for_catalog=True, num_predictions=104)
 
