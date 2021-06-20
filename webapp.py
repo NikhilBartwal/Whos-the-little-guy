@@ -31,7 +31,7 @@ def load_homepage():
 
     else:
         with info_homepage:
-            st.write("Who's The Little Guy?")
+            st.title("Who's The Little Guy?")
             st.write("Do you know that there are currently 40000 species of different\
              types of plants and flowers. Let's identify some")
             st.write("Le's get started by uploading an image: ")
