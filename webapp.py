@@ -39,6 +39,8 @@ def load_homepage():
 def display_sidebar(options):
     st.sidebar.warning('Please upload the image in a standard format (jpg, jpeg, png)')
     option = st.sidebar.selectbox('Explore the following:', options)
+    st.sidebar.subheader('Made with :heart: by Nikhil Bartwal')
+    st.sidebar.write('Checkout the source code [here](https://github.com/NikhilBartwal/Whos-the-little-guy)')
     return option
 
 def load_catalog():
