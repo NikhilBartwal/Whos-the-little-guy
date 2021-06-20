@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 
 def load_homepage():
     info_homepage = st.beta_container()
-    uploaded_file = st.file_uploader('Please upload an image->')
+    uploaded_file = st.file_uploader("Upload an image to get started:")
 
     if uploaded_file:
         st.warning('Please close the image to go back to the homepage')
@@ -31,16 +31,21 @@ def load_homepage():
 
     else:
         with info_homepage:
-            st.title("Who's The Little Guy?")
-            st.write("Do you know that there are currently 40000 species of different\
-             types of plants and flowers. Let's identify some")
-            st.write("Le's get started by uploading an image: ")
+            logo, title = st.beta_columns([1,3])
+            with title:
+                st.title("Who's The Little Guy?")
+                desc = 'A Deep Learning webapp for creating awareness about different species of flowers'
+                st.markdown(desc)
+                st.subheader('Made with :heart: by Nikhil Bartwal')
+                st.write('Checkout the source code [here](https://github.com/NikhilBartwal/Whos-the-little-guy)')
+                st.subheader('Have a look at the complete species catalog from the sidebar!')
+            with logo:
+                st.image('logo/logo.png', width=200)
+            st.subheader("Let's upload an image to get started!")
 
 def display_sidebar(options):
     st.sidebar.warning('Please upload the image in a standard format (jpg, jpeg, png)')
     option = st.sidebar.selectbox('Explore the following:', options)
-    st.sidebar.subheader('Made with :heart: by Nikhil Bartwal')
-    st.sidebar.write('Checkout the source code [here](https://github.com/NikhilBartwal/Whos-the-little-guy)')
     return option
 
 def load_catalog():
